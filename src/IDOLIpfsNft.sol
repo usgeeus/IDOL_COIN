@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.8;
+pragma solidity 0.8.19;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
@@ -62,11 +62,12 @@ contract IDOLIpfsNft is ERC721 {
         }
     }
 
-    function tokenURI(uint256) public view override returns (string memory) {
-        if(s_depositedAmount[msg.sender] >= i_mintFees[0]){
+    function tokenURI(uint256 tokenId) public view override returns (string memory) {
+        address msgSender = ownerOf(tokenId);
+        if(s_depositedAmount[msgSender] >= i_mintFees[0]){
             return s_idolTokenUris[0];
         }
-        else if(s_depositedAmount[msg.sender] >= i_mintFees[1]){
+        else if(s_depositedAmount[msgSender] >= i_mintFees[1]){
             return s_idolTokenUris[1];
         }
         else {
