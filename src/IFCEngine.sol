@@ -147,7 +147,11 @@ contract IFCEngine is ReentrancyGuard {
         if (minted != true) {
             revert IFCEngine__MintFailed();
         }
+        s_IFCMinted[address(this)] += amountIfcToMint;
         minted = i_ifc.mint(address(this), amountIfcToMint);
+        if (minted != true) {
+            revert IFCEngine__MintFailed();
+        }
     }
 
     /*
