@@ -29,39 +29,39 @@ import {ERC20Burnable, ERC20} from "@openzeppelin/contracts/token/ERC20/extensio
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 
 /*
- * @title DecentralizedStableCoin
+ * @title IDOLFundCoin
  * @author Patrick Collins
  * Collateral: Exogenous
  * Minting (Stability Mechanism): Decentralized (Algorithmic)
  * Value (Relative Stability): Anchored (Pegged to USD)
  * Collateral Type: Crypto
  *
- * This is the contract meant to be owned by DSCEngine. It is a ERC20 token that can be minted and burned by the DSCEngine smart contract.
+ * This is the contract meant to be owned by IFCEngine. It is a ERC20 token that can be minted and burned by the IFCEngine smart contract.
  */
-contract DecentralizedStableCoin is ERC20Burnable, Ownable {
-    error DecentralizedStableCoin__AmountMustBeMoreThanZero();
-    error DecentralizedStableCoin__BurnAmountExceedsBalance();
-    error DecentralizedStableCoin__NotZeroAddress();
+contract IDOLFundCoin is ERC20Burnable, Ownable {
+    error IDOLFundCoin__AmountMustBeMoreThanZero();
+    error IDOLFundCoin__BurnAmountExceedsBalance();
+    error IDOLFundCoin__NotZeroAddress();
 
-    constructor() ERC20("DecentralizedStableCoin", "DSC") {}
+    constructor() ERC20("IDOLFundCoin", "IDOL") {}
 
     function burn(uint256 _amount) public override onlyOwner {
         uint256 balance = balanceOf(msg.sender);
         if (_amount <= 0) {
-            revert DecentralizedStableCoin__AmountMustBeMoreThanZero();
+            revert IDOLFundCoin__AmountMustBeMoreThanZero();
         }
         if (balance < _amount) {
-            revert DecentralizedStableCoin__BurnAmountExceedsBalance();
+            revert IDOLFundCoin__BurnAmountExceedsBalance();
         }
         super.burn(_amount);
     }
 
     function mint(address _to, uint256 _amount) external onlyOwner returns (bool) {
         if (_to == address(0)) {
-            revert DecentralizedStableCoin__NotZeroAddress();
+            revert IDOLFundCoin__NotZeroAddress();
         }
         if (_amount <= 0) {
-            revert DecentralizedStableCoin__AmountMustBeMoreThanZero();
+            revert IDOLFundCoin__AmountMustBeMoreThanZero();
         }
         _mint(_to, _amount);
         return true;
