@@ -39,7 +39,7 @@ contract IDOLIpfsNft is ERC721 {
 
     function mintNft(uint256 fee) public {
         require(s_minted[msg.sender] == false, "already minted");
-        require(fee > 0, "fee below zero");
+        require(fee >= 100 ether, "Must be at least 100");
         s_minted[msg.sender] = true;
         s_depositedAmount[msg.sender] += fee;
         emit Deposited(msg.sender, fee);
@@ -70,8 +70,11 @@ contract IDOLIpfsNft is ERC721 {
         else if(s_depositedAmount[msgSender] >= i_mintFees[1]){
             return s_idolTokenUris[1];
         }
-        else {
+        else if(s_depositedAmount[msgSender] >= i_mintFees[2]){
             return s_idolTokenUris[2];
+        }
+        else {
+            return '0x';
         }
     }
 
